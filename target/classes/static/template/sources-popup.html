@@ -1,0 +1,14 @@
+<div ng-controller="SourcesPopupController" class="recommendations-popup">
+    <div class="recommendations-popup__container">
+        <div ui-sref="social.meta" class="recommendations-popup__close" title="Close">X</div>
+        <table class="recommendations-popup__table">
+            <tbody>
+            <tr ng-repeat="source in sources">
+                <td class="recommendations-popup__table-row">
+                    {{source}}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,45 @@
+<div ng-controller="MetaPopupController" class="recommendations-popup">
+    <div class="recommendations-popup__container">
+        <div ui-sref="social" class="recommendations-popup__close" title="Close">X</div>
+        <table class="recommendations-popup__table">
+            <thead>
+            <tr class="recommendations-popup__table-header">
+                <th>Event rank</th>
+                <th>Keywords</th>
+                <th>Event</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="event in events">
+                <td class="recommendations-popup__table-row">
+                    <span>{{event.eventMetadata.rank}}</span>
+                </td>
+                <td class="recommendations-popup__table-row">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Keyword</th>
+                            <th>Rank</th>
+                            <th>Sources</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="keyword in event.eventMetadata.keywords">
+                            <td>{{keyword.key}}</td>
+                            <td>{{keyword.value.rank}}</td>
+                            <td>
+                                <button ui-sref="social.meta.sources(keyword.value)">view</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td class="recommendations-popup__table-row">
+                    <div ng-include="'template/event-template.html'"></div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div ui-view="sources"></div>
+</div>

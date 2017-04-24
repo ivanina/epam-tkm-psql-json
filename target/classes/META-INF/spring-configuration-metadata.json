@@ -1,0 +1,57 @@
+{
+  "groups": [
+    {
+      "name": "spring.social.facebook",
+      "type": "social.config.properties.ExtendedFacebookProperties",
+      "sourceType": "social.config.properties.ExtendedFacebookProperties"
+    },
+    {
+      "name": "spring.social.spotify",
+      "type": "social.config.properties.SpotifyProperties",
+      "sourceType": "social.config.properties.SpotifyProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "spring.social.facebook.app-id",
+      "type": "java.lang.String",
+      "sourceType": "social.config.properties.ExtendedFacebookProperties"
+    },
+    {
+      "name": "spring.social.facebook.app-id",
+      "type": "java.lang.String",
+      "sourceType": "social.config.properties.ExtendedFacebookProperties"
+    },
+    {
+      "name": "spring.social.facebook.app-namespace",
+      "type": "java.lang.String",
+      "sourceType": "social.config.properties.ExtendedFacebookProperties"
+    },
+    {
+      "name": "spring.social.facebook.app-secret",
+      "type": "java.lang.String",
+      "sourceType": "social.config.properties.ExtendedFacebookProperties"
+    },
+    {
+      "name": "spring.social.facebook.app-secret",
+      "type": "java.lang.String",
+      "sourceType": "social.config.properties.ExtendedFacebookProperties"
+    },
+    {
+      "name": "spring.social.facebook.scope",
+      "type": "java.lang.String",
+      "sourceType": "social.config.properties.ExtendedFacebookProperties"
+    },
+    {
+      "name": "spring.social.spotify.app-id",
+      "type": "java.lang.String",
+      "sourceType": "social.config.properties.SpotifyProperties"
+    },
+    {
+      "name": "spring.social.spotify.app-secret",
+      "type": "java.lang.String",
+      "sourceType": "social.config.properties.SpotifyProperties"
+    }
+  ],
+  "hints": []
+}
