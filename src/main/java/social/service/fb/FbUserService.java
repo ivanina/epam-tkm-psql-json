@@ -1,5 +1,6 @@
 package social.service.fb;
 
+import org.springframework.beans.factory.annotation.Value;
 import social.entity.domain.FbUser;
 import social.entity.domain.FbUserProfile;
 import social.repository.manager.FbUserManager;
@@ -19,8 +20,10 @@ import java.util.Date;
 @Service
 @Transactional
 public class FbUserService implements FbService {
-
     private Facebook facebook;
+
+    @Value("${facebook.user_profile.fields}")
+    String [] fbFetchFields;
 
     private ConnectionRepository connectionRepository;
 
@@ -46,36 +49,23 @@ public class FbUserService implements FbService {
         this.init();
     }
 
-
-    public boolean isAuthenticated(){
-        this.init();
-        if(facebook == null || !facebook.isAuthorized()){
-            return false;
-        }
-        return true;
-    }
-
     public FbUser getAuthenticatedFbUser(){
-
-        // [ TODO: will drop this test
-
-        // end test ]
 
         if(!isAuthenticated()){
             return null;
         }
-        User userProfile = getFbUserProfile();
+        FbUserProfile userProfile = new FbUserProfile(getFbUserProfile());
         Long fbId = Long.parseLong(userProfile.getId());
         FbUser existUser = fbUserManager.findByFbId( fbId );
-        if(existUser != null){
+        if(existUser != null && userProfile != null){
             if(checkUpdateNeeded(existUser)){
-                //TODO: updated user to repository
+                existUser.setDateModified(new Date());
+                existUser.update(userProfile);
+                existUser = fbUserManager.save(existUser);
             }
-        }else if(userProfile != null && userProfile.getId() != null && userProfile.getId().length() > 0) {
-            //TODO: create new FbUser
+        }else if(userProfile != null && userProfile.getId() != null && userProfile.getId().length() > 0) { // NOSONAR
             existUser = new FbUser(Long.parseLong(userProfile.getId()),userProfile.getFirstName());
-            existUser.setDateAdded(new Date());
-            existUser.setFbData((FbUserProfile) userProfile);
+            existUser.setFbData( userProfile);
             existUser = fbUserManager.save(existUser);
         }
         return existUser;
@@ -84,15 +74,23 @@ public class FbUserService implements FbService {
     public boolean checkUpdateNeeded(FbUser user){
         if(user == null) return false;
         //TODO: check by time interval between interval in properties and last update date
-        return false;
+        return true; // temporally always to update
+    }
+
+    public boolean isAuthenticated(){
+        this.init();
+        if(facebook == null || !facebook.isAuthorized()){
+            return false;
+        }
+        //facebook.userOperations().getUserProfile();
+        return true;
     }
 
     public User getFbUserProfile(){
         if(!isAuthenticated()){
             return null;
         }
-        String [] fields = { "id", "email",  "first_name", "last_name" };
-        return facebook.fetchObject("me", User.class, fields);
+        return facebook.fetchObject("me", User.class, fbFetchFields);
     }
 
 }

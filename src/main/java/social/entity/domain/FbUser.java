@@ -1,9 +1,9 @@
 package social.entity.domain;
 
+import social.entity.domain.converter.JpaJsonFbUserKeywordsConverter;
+import social.entity.domain.converter.JpaJsonFbUserProfileConverter;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Type;
-import org.springframework.social.facebook.api.User;
 
 
 import javax.persistence.*;
@@ -26,9 +26,9 @@ public class FbUser implements EntityDomain {
     @Column(name = "first_name", columnDefinition = "VARCHAR(50)")
     private String firstName;
 
-    /*@Column(name = "keywords", columnDefinition = "JSON")
-    @Type(type = "FbUserProfileJson")
-    private String keywords;*/
+    @Column(name = "keywords", columnDefinition = "JSON")
+    @Convert(converter = JpaJsonFbUserKeywordsConverter.class)
+    private String keywords;
 
     @Column(name = "fb_data", columnDefinition = "JSON")
     @Convert(converter = JpaJsonFbUserProfileConverter.class)
@@ -46,7 +46,16 @@ public class FbUser implements EntityDomain {
     public FbUser(Long fbId, String firstName){
         this.fbId = fbId;
         this.firstName = firstName;
+        this.dateAdded = new Date();
     }
     public FbUser(){}
+
+    public void update(FbUserProfile user){
+        if(user == null) return;
+        this.firstName = user.getFirstName();
+        this.fbData = user;
+        this.dateModified = new Date();
+        //TODO: this.keywords
+    }
 
 }

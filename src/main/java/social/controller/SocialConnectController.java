@@ -34,8 +34,7 @@ public class SocialConnectController extends ConnectController {
 
     @Override
     protected String connectView() {
-        //return redirect(); // !?
-        return REDIRECT_PATH;
+        return redirect();
     }
 
     @Override

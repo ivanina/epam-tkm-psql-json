@@ -1,24 +1,23 @@
-package social.entity.domain;
+package social.entity.domain.converter;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.social.facebook.api.User;
 
 import javax.persistence.AttributeConverter;
 import java.io.IOException;
-
+import java.util.List;
 
 @Slf4j
-public class JpaJsonFbUserProfileConverter implements
-        AttributeConverter<FbUserProfile, String> {
+public class JpaJsonFbUserKeywordsConverter implements
+        AttributeConverter<List<String>, String> {
 
     private final static ObjectMapper objectMapper = new ObjectMapper();
 
 
     @Override
-    public String convertToDatabaseColumn(FbUserProfile meta) {
+    public String convertToDatabaseColumn(List<String> meta) {
         String jsonString;
         try {
             jsonString = objectMapper.writeValueAsString(meta);
@@ -30,9 +29,10 @@ public class JpaJsonFbUserProfileConverter implements
     }
 
     @Override
-    public FbUserProfile convertToEntityAttribute(String dbData) {
+    public List<String> convertToEntityAttribute(String dbData) {
+        if(dbData == null) dbData = "null";
         try {
-            return objectMapper.readValue(dbData, FbUserProfile.class);
+            return objectMapper.readValue(dbData, List.class);
         } catch (IOException e) {
             log.error(e.getMessage(),e);
             return null;

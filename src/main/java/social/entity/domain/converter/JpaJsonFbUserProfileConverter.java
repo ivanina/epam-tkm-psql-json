@@ -1,14 +1,13 @@
-package social.entity.domain;
+package social.entity.domain.converter;
 
 
+import social.entity.domain.FbUserProfile;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.social.facebook.api.User;
 
 import javax.persistence.AttributeConverter;
 import java.io.IOException;
-
 
 @Slf4j
 public class JpaJsonFbUserProfileConverter implements
@@ -31,6 +30,7 @@ public class JpaJsonFbUserProfileConverter implements
 
     @Override
     public FbUserProfile convertToEntityAttribute(String dbData) {
+        if(dbData == null) dbData = null;
         try {
             return objectMapper.readValue(dbData, FbUserProfile.class);
         } catch (IOException e) {

@@ -1,2 +1,0 @@
-
-package social.entity.domain;
