@@ -21,7 +21,7 @@ public class FbAuthenticationController {
         this.fbUserService = fbUserService;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(method = { RequestMethod.GET, RequestMethod.POST })
     FbUser getCurrentFbUser(){
         FbUser fbCurrentUser = fbUserService.getAuthenticatedFbUser();
         if(fbCurrentUser == null){
